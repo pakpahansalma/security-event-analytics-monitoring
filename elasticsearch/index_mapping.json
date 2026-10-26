@@ -1,0 +1,22 @@
+{
+  "mappings": {
+    "properties": {
+      "timestamp": { "type": "date" },
+      "source_ip": { "type": "ip" },
+      "destination_ip": { "type": "ip" },
+      "source_port": { "type": "integer" },
+      "destination_port": { "type": "integer" },
+      "protocol": { "type": "keyword" },
+      "packet_length": { "type": "integer" },
+      "attack_type": { "type": "keyword" },
+      "severity_level": { "type": "keyword" },
+      "action_taken": { "type": "keyword" },
+      "anomaly_score": { "type": "float" },
+      "attack_signature": { "type": "keyword" },
+      "packet_type": { "type": "keyword" },
+      "traffic_type": { "type": "keyword" },
+      "network_segment": { "type": "keyword" },
+      "log_source": { "type": "keyword" }
+    }
+  }
+}
