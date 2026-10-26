@@ -1,117 +1,195 @@
 # Security Event Analytics & Monitoring
+
 Security Monitoring Dashboard · Python, Elasticsearch & Kibana
 
-Proyek analitik keamanan siber yang mengolah data peristiwa keamanan jaringan menggunakan Python, menyimpan data terstruktur di Elasticsearch, dan memvisualisasikan aktivitas keamanan melalui dashboard interaktif Kibana.
+**Analisis dan pemantauan peristiwa keamanan siber menggunakan Python, Elasticsearch, dan Kibana.**
 
-## Gambaran Umum
+🌐 Bahasa: [Indonesia](README.md) | [English](README_eng.md)
 
-Proyek ini mendemonstrasikan alur kerja analitik keamanan siber dari awal hingga akhir, mulai dari persiapan dataset mentah dan transformasi data, hingga penyimpanan, pencarian, dan visualisasi data.
+## 1. Gambaran Umum
 
-Tujuan proyek ini adalah mengeksplorasi pola peristiwa keamanan, memantau tingkat keparahan, memeriksa tindakan penanganan, serta menganalisis tren peristiwa melalui dashboard terpusat.
+Proyek ini membangun alur analisis dan pemantauan peristiwa keamanan siber (*cybersecurity events*) menggunakan dataset dari Kaggle. Proyek mencakup pemeriksaan kualitas data, data cleaning, transformasi data, penyimpanan terindeks di Elasticsearch, serta visualisasi dan pemantauan menggunakan Kibana.
 
-## Tujuan Proyek
+Dashboard dirancang untuk memberikan gambaran mengenai tingkat keparahan peristiwa keamanan, jenis serangan, tindakan keamanan, protokol jaringan, skor anomali, dan aktivitas keamanan dari waktu ke waktu.
 
-- Menyiapkan dan mentransformasi data peristiwa keamanan siber menggunakan Python.
-- Menyusun struktur data agar dapat diindeks ke Elasticsearch.
-- Mengeksplorasi jenis serangan, tingkat keparahan, dan tindakan penanganan keamanan.
-- Memvisualisasikan distribusi peristiwa dan tren berdasarkan waktu menggunakan Kibana.
-- Membangun dashboard untuk mendukung pemantauan keamanan dan investigasi peristiwa.
+## 2. Tujuan Proyek
 
-## Teknologi yang Digunakan
+- Melakukan pemeriksaan kualitas dan persiapan data keamanan siber.
+- Menerapkan proses data cleaning dan transformasi yang terdokumentasi.
+- Menyiapkan struktur data yang sesuai untuk Elasticsearch.
+- Memvisualisasikan pola dan distribusi peristiwa keamanan melalui Kibana.
+- Menyediakan dashboard untuk eksplorasi dan pemantauan data keamanan.
 
-| Teknologi     | Kegunaan                                          |
-| ------------- | ------------------------------------------------- |
-| Python        | Persiapan dan transformasi data                   |
-| Pandas        | Pembersihan dan manipulasi data                   |
-| Google Colab  | Lingkungan pengembangan Python                    |
-| Elasticsearch | Penyimpanan dan pencarian data peristiwa keamanan |
-| Kibana        | Visualisasi data dan pembuatan dashboard          |
+## 3. Teknologi yang Digunakan
 
-## Dataset
+| Teknologi | Penggunaan |
+|---|---|
+| Python | Data preparation, cleaning, transformasi, dan validasi |
+| Pandas | Manipulasi dan pemeriksaan dataset |
+| Google Colab | Lingkungan pengembangan notebook |
+| Elasticsearch | Penyimpanan dan pencarian dokumen keamanan |
+| Kibana | Visualisasi data dan dashboard monitoring |
+| Kaggle | Sumber dataset |
 
-**Sumber:** Dataset *Cybersecurity Attacks* dari Kaggle.
+## 4. Dataset
 
-Dataset ini memiliki 40.000 baris data dan 25 kolom asli. Sebanyak 16 field dipilih dan disiapkan untuk proses pengindeksan ke Elasticsearch.
+Dataset yang digunakan adalah `cybersecurity_attacks`, yang diperoleh dari Kaggle.
 
-Field yang digunakan meliputi:
+Karakteristik dataset:
 
-- `timestamp`
-- `source_ip` dan `destination_ip`
-- `source_port` dan `destination_port`
-- `protocol`
-- `packet_length`
-- `attack_type`
-- `severity_level`
-- `action_taken`
-- `anomaly_score`
-- `attack_signature`
-- `packet_type`
-- `traffic_type`
-- `network_segment`
-- `log_source`
+- Jumlah data awal: 40.000 baris.
+- Jumlah kolom awal: 25.
+- Kolom yang digunakan untuk indeks Elasticsearch: 16.
+- Data merepresentasikan informasi terkait lalu lintas jaringan dan peristiwa keamanan siber.
 
-Field tersebut mendukung analisis waktu kejadian, alamat IP sumber dan tujuan, kategori serangan, tingkat keparahan, serta tindakan penanganan yang tercatat.
+Kolom yang digunakan dalam indeks utama meliputi timestamp, alamat IP sumber dan tujuan, port, protokol, panjang paket, jenis serangan, tingkat keparahan, tindakan keamanan, skor anomali, tanda tangan serangan, tipe paket, tipe lalu lintas, segmen jaringan, dan sumber log.
 
-## Alur Kerja Proyek
+## 5. Alur Kerja Proyek
 
-1. **Pengambilan Data Mentah**
-   Mengunduh dataset keamanan siber dari Kaggle sebagai sumber data awal.
+1. Dataset dikumpulkan dan dibaca menggunakan Python.
+2. Struktur data dan kualitas dataset diperiksa.
+3. Data cleaning dan pemeriksaan konsistensi dilakukan.
+4. Kolom yang relevan dipilih dan disiapkan untuk Elasticsearch.
+5. Tipe data dan nama kolom disesuaikan dengan skema indeks.
+6. Data divalidasi sebelum proses indexing.
+7. Data dikirim ke Elasticsearch.
+8. Data dieksplorasi dan divisualisasikan melalui Kibana.
 
-2. **Persiapan Data dengan Python**
-   Membaca dataset, memilih kolom yang relevan, menyeragamkan nama field, dan menyiapkan data untuk proses pengindeksan.
+## 6. Data Preparation & Cleaning
 
-3. **Pengindeksan ke Elasticsearch**
-   Menentukan pemetaan tipe data (*field mapping*) dan memasukkan data peristiwa keamanan ke Elasticsearch.
+Tahap persiapan data dilakukan sebelum proses indexing agar struktur data lebih konsisten dan sesuai dengan kebutuhan analisis keamanan.
 
-4. **Validasi Data**
-   Memastikan bahwa index Elasticsearch berisi 40.000 dokumen sesuai jumlah data yang diharapkan.
+### 6.1. Data Loading
 
-5. **Pembuatan Visualisasi di Kibana**
-   Menghubungkan Kibana dengan data melalui Data View dan membuat visualisasi untuk analisis keamanan.
+Dataset dibaca menggunakan Pandas. Data awal disimpan dalam `df_raw`, sedangkan salinan kerja untuk proses pemeriksaan dan cleaning disimpan dalam `df_clean`.
 
-6. **Penyusunan Dashboard Pemantauan**
-   Menggabungkan metrik KPI, grafik distribusi, analisis tren waktu, dan tabel detail peristiwa ke dalam satu dashboard.
+Pemisahan ini membantu mempertahankan referensi terhadap dataset awal selama proses persiapan data.
 
-## Dashboard Kibana
+### 6.2. Data Quality Assessment
 
-Dashboard bernama **Security Event Analytics & Monitoring** dirancang untuk memberikan gambaran umum mengenai peristiwa keamanan serta membantu proses investigasi lebih lanjut.
+Pemeriksaan kualitas data meliputi:
 
-### 1. Indikator Kinerja Utama (KPI)
+- Struktur dataset, jumlah baris, jumlah kolom, dan tipe data.
+- Pemeriksaan baris duplikat.
+- Distribusi kategori dan rentang nilai numerik.
+- Validitas alamat IP.
+- Rentang dan validitas timestamp.
+- Distribusi port jaringan.
+- Konsistensi antara `Traffic Type` dan `Protocol`.
 
+Hasil pemeriksaan digunakan untuk memahami karakteristik data dan mengidentifikasi potensi masalah kualitas sebelum data diindeks.
+
+### 6.3. Missing Value Analysis
+
+Pemeriksaan nilai kosong dilakukan, termasuk pada kolom berikut:
+
+- `Malware Indicators`
+- `Alerts/Warnings`
+- `Proxy Information`
+- `Firewall Logs`
+- `IDS/IPS Alerts`
+
+Nilai kosong tidak langsung diimputasi atau diganti dengan nilai buatan. Keputusan ini membantu menghindari asumsi yang tidak didukung oleh informasi dalam dataset.
+
+Kolom-kolom tersebut tidak dimasukkan ke dalam indeks utama Elasticsearch yang menggunakan 16 kolom terpilih. Oleh karena itu, hasil akhir `df_es` tidak memiliki missing values. Hal ini tidak berarti bahwa semua missing values dalam dataset mentah telah dihapus atau diperbaiki.
+
+### 6.4. Timestamp Standardization
+
+Kolom `Timestamp` dikonversi ke format datetime dengan standardisasi zona waktu UTC.
+
+Validasi timestamp menunjukkan bahwa seluruh 40.000 nilai timestamp berhasil dikonversi. Rentang waktu ini kemudian digunakan sebagai dasar pemilihan rentang waktu pada dashboard Kibana.
+
+### 6.5. Text dan Consistency Checks
+
+Pemeriksaan tambahan mencakup whitespace, placeholder teks, serta konsistensi kategori.
+
+Perubahan dilakukan secara hati-hati agar tidak mengubah makna data yang sudah tersedia. Berdasarkan hasil validasi notebook, perubahan pada tahap cleaning tercatat hanya pada kolom `Timestamp`.
+
+### 6.6. Hasil Data Cleaning
+
+Setelah proses cleaning:
+
+- Jumlah baris tetap 40.000.
+- Jumlah kolom tetap 25 pada `df_clean`.
+- Tidak ditemukan baris duplikat.
+- Seluruh timestamp berhasil dikonversi.
+- Data dipertahankan tanpa penghapusan baris pada tahap cleaning yang terdokumentasi.
+
+## 7. Data Transformation & Preparation for Elasticsearch
+
+Setelah cleaning, kolom yang relevan dipilih untuk kebutuhan analisis dan dashboard.
+
+Dataset hasil pemilihan kolom disiapkan dalam `df_index`, kemudian digunakan untuk membentuk `df_es`.
+
+Transformasi yang dilakukan mencakup:
+
+- Pemilihan 16 kolom dari 25 kolom awal.
+- Standardisasi nama kolom menjadi `snake_case`, misalnya `Source IP Address` menjadi `source_ip`.
+- Penyesuaian tipe data agar sesuai dengan mapping Elasticsearch.
+- Pemeriksaan hasil akhir sebelum indexing.
+
+### Kolom pada indeks utama
+
+| Kolom | Tipe data Elasticsearch |
+|---|---|
+| `timestamp` | `date` |
+| `source_ip` | `ip` |
+| `destination_ip` | `ip` |
+| `source_port` | `integer` |
+| `destination_port` | `integer` |
+| `protocol` | `keyword` |
+| `packet_length` | `integer` |
+| `attack_type` | `keyword` |
+| `severity_level` | `keyword` |
+| `action_taken` | `keyword` |
+| `anomaly_score` | `float` |
+| `attack_signature` | `keyword` |
+| `packet_type` | `keyword` |
+| `traffic_type` | `keyword` |
+| `network_segment` | `keyword` |
+| `log_source` | `keyword` |
+
+## 8. Data Validation & Elasticsearch Ingestion
+
+Sebelum dan sesudah indexing, jumlah data diperiksa untuk memastikan proses ingestion berjalan sesuai target.
+
+| Pemeriksaan | Hasil |
+|---|---:|
+| Baris dataset awal | 40.000 |
+| Kolom dataset awal | 25 |
+| Baris `df_es` | 40.000 |
+| Kolom `df_es` | 16 |
+| Missing values pada `df_es` | 0 |
+| Dokumen terindeks di Elasticsearch | 40.000 |
+
+Indeks Elasticsearch yang digunakan adalah `security-events-test`.
+
+Jumlah dokumen diverifikasi menggunakan Elasticsearch Count API. Hasilnya menunjukkan bahwa 40.000 dokumen berhasil diindeks.
+
+## 9. Dashboard Kibana
+
+Dashboard **Security Event Analytics & Monitoring** menampilkan beberapa aspek utama keamanan jaringan.
+
+### KPI
 - Total Security Events
 - High Severity Events
 - Blocked Events
 - Average Anomaly Score
 
-### 2. Gambaran Serangan (*Attack Overview*)
-
+### Visualisasi
 - Attack Types Distribution
 - Security Events by Severity
-
-### 3. Aktivitas Keamanan (*Security Activity*)
-
 - Security Actions Distribution
 - Network Protocol Distribution
-
-### 4. Tren dan Analisis (*Trend & Analysis*)
-
 - Security Events Over Time
 - Attack Type by Severity
 
-### 5. Log Keamanan dan Detail Peristiwa
+### Detail Log
+Tabel detail digunakan untuk menampilkan informasi seperti timestamp, severity level, source IP, destination IP, attack type, action taken, anomaly score, dan protocol.
 
-Tabel detail menampilkan catatan peristiwa individual dengan field seperti waktu kejadian, tingkat keparahan, IP sumber, IP tujuan, jenis serangan, tindakan penanganan, dan skor anomali.
+Dashboard membantu pengguna mengeksplorasi distribusi dan tren peristiwa keamanan dalam dataset.
 
-## Validasi Data
-
-Data hasil persiapan berhasil diindeks ke Elasticsearch.
-
-- **Jumlah dokumen yang diharapkan:** 40.000
-- **Jumlah dokumen yang terindeks:** 40.000
-- **Jumlah field yang dipilih:** 16
-- **Nilai kosong pada dataset hasil persiapan:** 0
-
-## Struktur Repository
+## 10. Struktur Repository
 
 ```text
 security-event-analytics-monitoring/
@@ -119,30 +197,31 @@ security-event-analytics-monitoring/
 │   ├── README.md
 │   └── .gitkeep
 ├── notebooks/
-│   └── security_event_analysis.ipynb
+│   └── Project_Security_Log_Analytics.ipynb
 ├── screenshots/
 │   └── .gitkeep
 ├── elasticsearch/
 │   └── index_mapping.json
 ├── README.md
+├── README_ID.md
 └── requirements.txt
 ```
 
-*Struktur folder di atas merupakan rancangan repository. Setiap file akan ditambahkan setelah disiapkan dan diverifikasi.*
+Struktur tersebut merupakan struktur repository yang direncanakan. File dimasukkan setelah dibuat dan diperiksa. Dataset mentah dapat dirujuk melalui sumber Kaggle apabila lisensinya tidak mengizinkan redistribusi.
 
-## Pengembangan Selanjutnya
+## 11. Pengembangan Selanjutnya
 
-- Melakukan analisis lebih mendalam terhadap pola serangan dan hubungan dengan tingkat keparahan.
-- Menginvestigasi pola skor anomali yang tidak biasa.
-- Menambahkan fitur penyaringan dan penelusuran detail peristiwa.
-- Mendokumentasikan proses pemasukan data dan pemetaan index agar dapat direproduksi.
-- Melengkapi dokumentasi dashboard dengan screenshot dan temuan analisis.
+- Menambahkan visualisasi yang lebih mendalam untuk pola serangan.
+- Mengembangkan deteksi anomali dengan pendekatan statistik atau machine learning.
+- Menambahkan alert untuk kondisi keamanan tertentu.
+- Menyempurnakan dokumentasi reproduksibilitas pipeline data.
+- Mengembangkan otomatisasi ingestion dan monitoring.
 
-## Penafian
+## 12. Disclaimer
 
-Proyek ini dibuat untuk tujuan pembelajaran dan portofolio. Dataset digunakan untuk mendemonstrasikan analitik peristiwa keamanan dan pengembangan dashboard, bukan sebagai sistem pemantauan keamanan produksi secara langsung.
+Proyek ini dibuat untuk tujuan pembelajaran, eksplorasi data, dan portofolio analisis keamanan siber. Hasil analisis merepresentasikan dataset yang digunakan dan tidak secara otomatis mencerminkan kondisi jaringan produksi secara nyata.
 
-## Tentang Penulis
+## 13. Author
 
 **Salma Cristianes Roito Pakpahan**
 
