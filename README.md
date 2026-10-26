@@ -144,6 +144,6 @@ Proyek ini dibuat untuk tujuan pembelajaran dan portofolio. Dataset digunakan un
 
 ## Tentang Penulis
 
-**Nama Anda**
+**Salma Cristianes Roito Pakpahan**
 
-Bidang minat: Cybersecurity Analytics | Data Analytics | Python | Elasticsearch | Kibana
+Bidang: Data Analytics | Cybersecurity Analytics | Python | Elasticsearch | Kibana
