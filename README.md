@@ -1,10 +1,24 @@
 # Security Event Analytics & Monitoring
 
-Security Monitoring Dashboard · Python, Elasticsearch & Kibana
+**Security Monitoring Dashboard · Python, Elasticsearch & Kibana**
 
-**Analisis dan pemantauan peristiwa keamanan siber menggunakan Python, Elasticsearch, dan Kibana.**
+Analisis dan pemantauan peristiwa keamanan siber menggunakan Python, Elasticsearch, dan Kibana.
 
-🌐 Bahasa: [Indonesia](README.md) | [English](README_eng.md)
+🌐 **Bahasa:** [Indonesia](README.md) | [English](README_eng.md)
+
+---
+
+## 📌 Navigasi Proyek
+
+Gunakan tautan berikut untuk membuka komponen utama proyek secara langsung.
+
+| Komponen | Deskripsi | Tautan |
+|---|---|---|
+| 📓 **Jupyter Notebook** | Data preparation, cleaning, transformation, dan validasi | [Buka Notebook](security_event_analytics.ipynb) |
+| 📊 **Kibana Screenshots** | Dokumentasi visual dashboard dan hasil visualisasi | [Lihat Screenshot](Kibana%20Screenshot/) |
+| ⚙️ **Elasticsearch Mapping** | Definisi tipe data dan struktur indeks | [Lihat `index_mapping.json`](elasticsearch/index_mapping.json) |
+| 📁 **Raw Dataset** | Dataset awal yang digunakan dalam analisis | [Buka `raw_data.csv`](raw_data.csv) |
+| 🇬🇧 **English Documentation** | Dokumentasi proyek dalam bahasa Inggris | [Buka README Bahasa Inggris](README_eng.md) |
 
 ## 1. Gambaran Umum
 
@@ -42,6 +56,10 @@ Karakteristik dataset:
 - Kolom yang digunakan untuk indeks Elasticsearch: 16.
 - Data merepresentasikan informasi terkait lalu lintas jaringan dan peristiwa keamanan siber.
 
+File dataset yang tersedia di repository:
+
+[`raw_data.csv`](raw_data.csv)
+
 Kolom yang digunakan dalam indeks utama meliputi timestamp, alamat IP sumber dan tujuan, port, protokol, panjang paket, jenis serangan, tingkat keparahan, tindakan keamanan, skor anomali, tanda tangan serangan, tipe paket, tipe lalu lintas, segmen jaringan, dan sumber log.
 
 ## 5. Alur Kerja Proyek
@@ -54,6 +72,8 @@ Kolom yang digunakan dalam indeks utama meliputi timestamp, alamat IP sumber dan
 6. Data divalidasi sebelum proses indexing.
 7. Data dikirim ke Elasticsearch.
 8. Data dieksplorasi dan divisualisasikan melalui Kibana.
+
+Notebook lengkap dapat dibuka melalui [security_event_analytics.ipynb](security_event_analytics.ipynb).
 
 ## 6. Data Preparation & Cleaning
 
@@ -149,6 +169,8 @@ Transformasi yang dilakukan mencakup:
 | `network_segment` | `keyword` |
 | `log_source` | `keyword` |
 
+Definisi mapping tersedia pada [`elasticsearch/index_mapping.json`](elasticsearch/index_mapping.json).
+
 ## 8. Data Validation & Elasticsearch Ingestion
 
 Sebelum dan sesudah indexing, jumlah data diperiksa untuk memastikan proses ingestion berjalan sesuai target.
@@ -168,46 +190,48 @@ Jumlah dokumen diverifikasi menggunakan Elasticsearch Count API. Hasilnya menunj
 
 ## 9. Dashboard Kibana
 
-Dashboard **Security Event Analytics & Monitoring** menampilkan beberapa aspek utama keamanan jaringan.
+Dashboard **Security Event Analytics & Monitoring** digunakan untuk mengeksplorasi dan memvisualisasikan peristiwa keamanan siber.
 
 ### KPI
+
 - Total Security Events
 - High Severity Events
 - Blocked Events
 - Average Anomaly Score
 
-### Visualisasi
-- Attack Types Distribution
-- Security Events by Severity
-- Security Actions Distribution
-- Network Protocol Distribution
-- Security Events Over Time
-- Attack Type by Severity
+### Visualisasi Utama
+
+1. **Attack Types Distribution** — distribusi jenis serangan.
+2. **Security Events by Severity** — distribusi event berdasarkan tingkat keparahan.
+3. **Security Actions Distribution** — distribusi tindakan keamanan yang tercatat.
+4. **Security Events Over Time** — tren event sepanjang rentang waktu.
+5. **Network Protocol Distribution** — distribusi protokol jaringan.
 
 ### Detail Log
+
 Tabel detail digunakan untuk menampilkan informasi seperti timestamp, severity level, source IP, destination IP, attack type, action taken, anomaly score, dan protocol.
 
-Dashboard membantu pengguna mengeksplorasi distribusi dan tren peristiwa keamanan dalam dataset.
+### Dokumentasi Dashboard
+
+Screenshot dashboard tersedia di folder [Kibana Screenshot](Kibana%20Screenshot/).
+
+Dokumentasi visual ini melengkapi notebook dan konfigurasi Elasticsearch dengan memperlihatkan hasil analisis dalam bentuk dashboard.
 
 ## 10. Struktur Repository
 
 ```text
 security-event-analytics-monitoring/
-├── data/
-│   ├── README.md
-│   └── .gitkeep
-├── notebooks/
-│   └── Project_Security_Log_Analytics.ipynb
-├── screenshots/
-│   └── .gitkeep
+├── Kibana Screenshot/
+│   └── [File screenshot dashboard]
 ├── elasticsearch/
 │   └── index_mapping.json
+├── raw_data.csv
+├── security_event_analytics.ipynb
 ├── README.md
-├── README_ID.md
-└── requirements.txt
+└── README_eng.md
 ```
 
-Struktur tersebut merupakan struktur repository yang direncanakan. File dimasukkan setelah dibuat dan diperiksa. Dataset mentah dapat dirujuk melalui sumber Kaggle apabila lisensinya tidak mengizinkan redistribusi.
+Struktur di atas mengikuti daftar file yang dilaporkan telah diunggah ke repository. Nama file di dalam folder screenshot perlu disesuaikan dengan file yang benar-benar tersedia di GitHub.
 
 ## 11. Pengembangan Selanjutnya
 
